@@ -83,13 +83,14 @@ public class PushNotification implements IPushNotification {
     }
 
     protected void digestNotification() {
-        if (!mAppLifecycleFacade.isReactInitialized()) {
+        final ReactContext reactContext = mAppLifecycleFacade.getRunningReactContext();
+
+        if (!mAppLifecycleFacade.isReactInitialized() || reactContext == null) {
             setAsInitialNotification();
             launchOrResumeApp();
             return;
         }
 
-        final ReactContext reactContext = mAppLifecycleFacade.getRunningReactContext();
         if (reactContext.getCurrentActivity() == null) {
             setAsInitialNotification();
         }
